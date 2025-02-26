@@ -11,7 +11,8 @@ const Employee = sequelize.define('Employee', {
     position: { type: DataTypes.STRING },
     department: { type: DataTypes.STRING },
     hired_at: { type: DataTypes.DATE, defaultValue: Date.now() },
-    is_active: { type: DataTypes.BOOLEAN, defaultValue: true }
+    is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
+    role: {type: DataTypes.STRING, defaultValue: 'EMLPLOYEE'},
 }, { timestamps: false });
 
 const Token = sequelize.define('token', {
@@ -56,18 +57,6 @@ TaskTimeLog.belongsTo(Task, { foreignKey: 'task_id', onDelete: 'CASCADE' });
 Employee.hasMany(TaskTimeLog, { foreignKey: 'employee_id' });
 Task.hasMany(TaskTimeLog, { foreignKey: 'task_id' });
 
-// Модель отделов
-const Department = sequelize.define('Department', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    name: { type: DataTypes.STRING, allowNull: false, unique: true }
-}, { timestamps: false });
-
-// Связь сотрудников и отделов (многие ко многим)
-const EmployeeDepartment = sequelize.define('EmployeeDepartment', {}, { timestamps: false });
-
-Employee.belongsToMany(Department, { through: EmployeeDepartment, foreignKey: 'employee_id' });
-Department.belongsToMany(Employee, { through: EmployeeDepartment, foreignKey: 'department_id' });
-
 // Модель отчетов
 const Report = sequelize.define('Report', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -79,18 +68,5 @@ const Report = sequelize.define('Report', {
 Report.belongsTo(Employee, { foreignKey: 'employee_id', onDelete: 'SET NULL' });
 Employee.hasMany(Report, { foreignKey: 'employee_id' });
 
-// Модель ролей
-const UserRole = sequelize.define('UserRole', {
-    id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-    role_name: { type: DataTypes.STRING, allowNull: false, unique: true }
-}, { timestamps: false });
 
-// Связь сотрудников и их ролей (многие ко многим)
-const EmployeeRole = sequelize.define('EmployeeRole', {}, { timestamps: false });
-
-Employee.belongsToMany(UserRole, { through: EmployeeRole, foreignKey: 'employee_id' });
-UserRole.belongsToMany(Employee, { through: EmployeeRole, foreignKey: 'role_id' });
-
-
-
-module.exports = { Employee, WorkSession, Task, TaskTimeLog, Department, EmployeeDepartment, Report, UserRole, EmployeeRole};
+module.exports = { Employee, WorkSession, Task, TaskTimeLog, Report};

@@ -7,6 +7,7 @@ module.exports = class EmployeeDto {
     department;
     hired_at;
     is_active;
+    role;
     constructor(model) {
         this.id = model.id
         this.first_name = model.first_name
@@ -16,5 +17,6 @@ module.exports = class EmployeeDto {
         this.department = model.department
         this.hired_at = model.hired_at
         this.is_active = model.is_active
+        this.role = model.role
     }
 }
