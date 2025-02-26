@@ -4,10 +4,10 @@ const sequelize = require('./db')  //Подключение к бд
 const models = require('./models/models') //Инициализация бд
 const cors = require('cors') //Импорт cors
 // const fileUpload = require('express-fileupload')
-// const router = require('./routes/index')
+const router = require('./routes/index')
 const PORT = process.env.PORT || 5000 //Инициализация порта
 const app = express() //Объект приложения
-// const errorHandler = require('./middleware/ErrorHandlingMiddleware') //Инициализация еррорхендлера
+const errorHandler = require('./middleware/ErrorHandlingMiddleware') //Инициализация еррорхендлера
 // const path = require('path')
 // const cookieParser = require('cookie-parser')
 // const webSocketController = require('./webSockets/webSocketController')
@@ -24,11 +24,11 @@ app.use(cors(corsOptions));
 app.use(express.json())  //Это чтобы приложение могло парсить json формат
 // app.use(express.static(path.resolve(__dirname, 'static')))
 // app.use(fileUpload({}))
-// app.use('/api', router)
+app.use('/api', router)
 
 //Обработка ошибок, последний Middleware
 //!!!РЕГИСТРИРУЕТСЯ ОБЯЗАТЕЛЬНО В САМОМ КОНЦЕ!!!
-// app.use(errorHandler)
+app.use(errorHandler)
 
 const server = require('http').createServer(app)
 // const io = require('socket.io')(server, {

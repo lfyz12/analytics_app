@@ -44,8 +44,8 @@ const Task = sequelize.define('Task', {
     status: { type: DataTypes.STRING, defaultValue: 'new' },
 }, { timestamps: true });
 
-Task.belongsTo(Employee, { foreignKey: 'assigned_to', onDelete: 'SET NULL' });
-Employee.hasMany(Task, { foreignKey: 'assigned_to' });
+Task.belongsTo(Employee, { foreignKey: 'employee_id', onDelete: 'SET NULL' });
+Employee.hasMany(Task, { foreignKey: 'employee_id' });
 
 // Модель логирования работы над задачами
 const TaskTimeLog = sequelize.define('TaskTimeLog', {
