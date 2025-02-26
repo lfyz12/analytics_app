@@ -27,6 +27,7 @@ Token.belongsTo(Employee)
 // Модель рабочих сессий
 const WorkSession = sequelize.define('WorkSession', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    employee_id: {type: DataTypes.INTEGER, allowNull: false},
     start_time: { type: DataTypes.DATE, allowNull: false },
     end_time: { type: DataTypes.DATE },
 }, { timestamps: false });
@@ -37,6 +38,7 @@ Employee.hasMany(WorkSession, { foreignKey: 'employee_id' });
 // Модель задач
 const Task = sequelize.define('Task', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    employee_id: {type: DataTypes.INTEGER, allowNull: false},
     title: { type: DataTypes.STRING, allowNull: false },
     description: { type: DataTypes.TEXT },
     status: { type: DataTypes.STRING, defaultValue: 'new' },
@@ -48,6 +50,8 @@ Employee.hasMany(Task, { foreignKey: 'assigned_to' });
 // Модель логирования работы над задачами
 const TaskTimeLog = sequelize.define('TaskTimeLog', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    employee_id: {type: DataTypes.INTEGER, allowNull: false},
+    task_id: {type: DataTypes.INTEGER, allowNull: false},
     start_time: { type: DataTypes.DATE, allowNull: false },
     end_time: { type: DataTypes.DATE },
 }, { timestamps: false });
@@ -60,6 +64,7 @@ Task.hasMany(TaskTimeLog, { foreignKey: 'task_id' });
 // Модель отчетов
 const Report = sequelize.define('Report', {
     id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
+    employee_id: {type: DataTypes.INTEGER, allowNull: false},
     report_date: { type: DataTypes.DATEONLY, allowNull: false },
     total_work_time: { type: DataTypes.INTEGER }, // В минутах
     total_tasks_completed: { type: DataTypes.INTEGER, defaultValue: 0 },
@@ -67,6 +72,7 @@ const Report = sequelize.define('Report', {
 
 Report.belongsTo(Employee, { foreignKey: 'employee_id', onDelete: 'SET NULL' });
 Employee.hasMany(Report, { foreignKey: 'employee_id' });
-
+Report.belongsTo(Employee, { foreignKey: 'employee_id', onDelete: 'CASCADE' });
+Employee.hasMany(Report, { foreignKey: 'employee_id' });
 
 module.exports = { Employee, WorkSession, Task, TaskTimeLog, Report};
