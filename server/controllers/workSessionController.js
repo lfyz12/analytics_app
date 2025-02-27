@@ -66,7 +66,7 @@ class WorkSessionController {
                 };
             }
 
-            const sessions = await WorkSession.findAll({ where: whereClause, include: Employee });
+            const sessions = await WorkSession.findAll();
             return res.json(sessions);
         } catch (error) {
             next(ApiError.badRequest(error.message))

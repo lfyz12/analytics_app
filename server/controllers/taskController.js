@@ -32,14 +32,13 @@ class TaskController {
     async getTasks(req, res, next) {
         try {
             const { status, employee_id } = req.query;
-            let whereClause = {};
-
-            if (status) whereClause.status = status;
-            if (employee_id) whereClause.employee_id = employee_id;
+            // let whereClause = {};
+            //
+            // if (status !== '') whereClause.status = status;
+            // if (employee_id !== 0) whereClause.employee_id = employee_id;
 
             const tasks = await Task.findAll({
-                where: whereClause,
-                include: { model: Employee, attributes: ['id', 'first_name', 'last_name'] }
+                // include: { model: Employee, attributes: ['id', 'first_name', 'last_name'] }
             });
 
             return res.json(tasks);

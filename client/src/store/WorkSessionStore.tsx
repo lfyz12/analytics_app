@@ -34,9 +34,9 @@ export class WorkSessionStore {
         }
     }
 
-    async fetchSessions(employee_id: number): Promise<void> {
+    async fetchSessions(): Promise<void> {
         try {
-            const response: AxiosResponse<IWorkSession[]> = await WorkSessionService.getSessions(employee_id);
+            const response: AxiosResponse<IWorkSession[]> = await WorkSessionService.getSessions();
             this.setSessions(response.data);
         } catch (e) {
             console.error("Ошибка при получении сессий:", e);

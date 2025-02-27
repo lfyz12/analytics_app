@@ -29,12 +29,12 @@ class TokenController {
         }
     }
 
-    async saveToken(userId, refreshToken) {
-        const tokenData = await Token.findOne({where: {userId: userId}})
+    async saveToken(employeeId, refreshToken) {
+        const tokenData = await Token.findOne({where: {employeeId: employeeId}})
         if (tokenData) {
-            return await Token.update({refreshToken: refreshToken}, {where: {userId: userId}})
+            return await Token.update({refreshToken: refreshToken}, {where: {employeeId: employeeId}})
         }
-        const token = await Token.create({userId: userId, refreshToken: refreshToken})
+        const token = await Token.create({employeeId: employeeId, refreshToken: refreshToken})
         return token
     }
 

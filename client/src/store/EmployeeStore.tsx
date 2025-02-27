@@ -25,7 +25,8 @@ export class EmployeeStore {
     async register(first_name: string, last_name: string, email: string, position: string, department: string, password: string) {
         try {
             const response = await EmployeeService.registration(first_name, last_name, email, position, department, password)
-            localStorage.setItem('token', response.data.token.accessToken)
+            localStorage.setItem('token', response.data.accessToken)
+            localStorage.setItem('refreshToken', response.data.refreshToken);
             this.setEmployee(response.data.employee)
             this.setIsAuth(true)
         } catch (e) {
@@ -37,7 +38,8 @@ export class EmployeeStore {
     async login(email: string, password: string) {
         try {
             const response = await EmployeeService.login(email, password)
-            localStorage.setItem('token', response.data.token.accessToken)
+            localStorage.setItem('token', response.data.accessToken)
+            localStorage.setItem('refreshToken', response.data.refreshToken);
             this.setEmployee(response.data.employee)
             this.setIsAuth(true)
         } catch (e) {
@@ -50,6 +52,7 @@ export class EmployeeStore {
         try {
             const response = await EmployeeService.logout()
             localStorage.removeItem('token')
+            localStorage.removeItem('refreshToken')
             this.setEmployee({} as IEmployee)
             this.setIsAuth(false)
         } catch (e) {
@@ -61,8 +64,9 @@ export class EmployeeStore {
 
     async checkAuth() {
         try {
-            const response = await EmployeeService.checkAuth()
-            localStorage.setItem('token', response.data.token.accessToken);
+            const response = await EmployeeService.checkAuth(localStorage.getItem('refreshToken')!)
+            localStorage.setItem('token', response.data.accessToken);
+            localStorage.setItem('refreshToken', response.data.refreshToken);
             this.setIsAuth(true)
             this.setEmployee(response.data.user)
         } catch (e) {

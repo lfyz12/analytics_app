@@ -3,11 +3,6 @@ export interface ITask {
     employee_id: number
     title: string
     description: string
-    status: TaskStatusEnum
+    status: string
 }
 
-export const enum TaskStatusEnum {
-    'Новая',
-    'В работе',
-    'Выполнена'
-}

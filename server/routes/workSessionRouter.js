@@ -10,9 +10,9 @@ router.post('/start',authMiddleware, workSessionController.startSession);
 router.post('/end', authMiddleware, workSessionController.endSession);
 
 // 🔹 Получить сессии (можно фильтровать по сотруднику и дате)
-router.get('/', authMiddleware, checkRole('ADMIN'), workSessionController.getSessions);
+router.get('/', authMiddleware, workSessionController.getSessions);
 
 // 🔹 Удалить сессию
-router.delete('/:id', authMiddleware, checkRole('ADMIN'), workSessionController.deleteSession);
+router.delete('/:id', authMiddleware, workSessionController.deleteSession);
 
 module.exports = router;

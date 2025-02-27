@@ -14,8 +14,8 @@ export default class EmployeeService {
         return $authHost.post('/api/employee/logout', {})
     }
 
-    static async checkAuth(): Promise<AxiosResponse> {
-        return $host.get('/api/employee/refresh', { withCredentials: true })
+    static async checkAuth(token: string): Promise<AxiosResponse> {
+        return $host.get('/api/employee/refresh?refreshToken=' + token, { withCredentials: true })
     }
 
     static async getById(id: number): Promise<AxiosResponse> {

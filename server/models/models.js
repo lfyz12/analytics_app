@@ -12,7 +12,7 @@ const Employee = sequelize.define('Employee', {
     department: { type: DataTypes.STRING },
     hired_at: { type: DataTypes.DATE, defaultValue: Date.now() },
     is_active: { type: DataTypes.BOOLEAN, defaultValue: true },
-    role: {type: DataTypes.STRING, defaultValue: 'EMLPLOYEE'},
+    role: {type: DataTypes.STRING, defaultValue: 'EMPLOYEE'},
 }, { timestamps: false });
 
 const Token = sequelize.define('token', {
@@ -75,4 +75,4 @@ Employee.hasMany(Report, { foreignKey: 'employee_id' });
 Report.belongsTo(Employee, { foreignKey: 'employee_id', onDelete: 'CASCADE' });
 Employee.hasMany(Report, { foreignKey: 'employee_id' });
 
-module.exports = { Employee, WorkSession, Task, TaskTimeLog, Report};
+module.exports = { Employee, WorkSession, Task, TaskTimeLog, Report, Token};

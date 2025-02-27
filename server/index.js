@@ -9,7 +9,7 @@ const PORT = process.env.PORT || 5000 //Инициализация порта
 const app = express() //Объект приложения
 const errorHandler = require('./middleware/ErrorHandlingMiddleware') //Инициализация еррорхендлера
 // const path = require('path')
-// const cookieParser = require('cookie-parser')
+const cookieParser = require('cookie-parser')
 // const webSocketController = require('./webSockets/webSocketController')
 
 
@@ -20,7 +20,7 @@ const corsOptions ={
 }
 app.use(cors(corsOptions));
 
-// app.use(cookieParser())
+app.use(cookieParser())
 app.use(express.json())  //Это чтобы приложение могло парсить json формат
 // app.use(express.static(path.resolve(__dirname, 'static')))
 // app.use(fileUpload({}))

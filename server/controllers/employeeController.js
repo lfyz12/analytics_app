@@ -21,14 +21,13 @@ class EmployeeController {
             }
 
             const hashPassword = await bcrypt.hash(password, 5)
-            const employee = await Employee.create({ first_name, last_name, email, position, department, password: hashPassword})
+            const employee = await Employee.create({ first_name, last_name, email, position, department, password: hashPassword, hired_at: new Date,is_active: true, role: 'EMPLOYEE'})
 
             const employeeDto = new EmployeeDto(employee)
             const tokens = tokenController.generateTokens({ ...employeeDto })
             await tokenController.saveToken(employeeDto.id, tokens.refreshToken)
 
-
-            res.cookie('refreshToken', tokens.refreshToken, { maxAge: 10 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie('refreshToken', tokens.refreshToken, { maxAge: 10 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json({...tokens, employee: {...employeeDto}})
             // res.cookie('accessToken', tokens.accessToken, {maxAge: 60 * 60 * 1000, httpOnly: true})
             // return res.json({ user: { ...userDto } })
@@ -54,7 +53,7 @@ class EmployeeController {
             await tokenController.saveToken(employeeDto.id, tokens.refreshToken)
 
 
-            res.cookie('refreshToken', tokens.refreshToken, { maxAge: 10 * 24 * 60 * 60 * 1000, httpOnly: true })
+            res.cookie('refreshToken', tokens.refreshToken, { maxAge: 10 * 24 * 60 * 60 * 1000, httpOnly: true})
             return res.json({...tokens, employee: {...employeeDto}})
             // res.cookie('accessToken', tokens.accessToken, {maxAge: 60 * 60 * 1000, httpOnly: true})
             // return res.json({ user: { ...userDto } })
@@ -79,10 +78,14 @@ class EmployeeController {
 
     async refresh(req, res, next) {
         try {
-            const { refreshToken } = req.cookies
+            console.log('PROVERKA!!!! 0')
+            const { refreshToken } = req.query
+            console.log('PROVERKA!!!! 1')
             if (!refreshToken) {
+                console.log('PROVERKA!!!! 2')
                 throw ApiError.badRequest('Не авторизован')
             }
+            console.log('PROVERKA!!!! 3')
             const userData = tokenController.validateRefreshToken(refreshToken)
             const tokenFromDb = tokenController.findToken(refreshToken)
             if (!userData || !tokenFromDb) {

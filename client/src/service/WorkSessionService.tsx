@@ -10,8 +10,8 @@ export default class WorkSessionService {
         return $authHost.post('/api/workSession/end', {employee_id})
     }
 
-    static async getSessions(employee_id: number): Promise<AxiosResponse> {
-        return $authHost.get('/api/workSession?employee_id=' + employee_id)
+    static async getSessions(): Promise<AxiosResponse> {
+        return $authHost.get('/api/workSession')
     }
 
     static async delSessions(id: number): Promise<AxiosResponse> {

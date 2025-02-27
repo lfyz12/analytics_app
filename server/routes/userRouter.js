@@ -10,7 +10,7 @@ router.post('/login', employeeController.login)
 router.post('/logout', authMiddleware, employeeController.logout)
 
 router.get('/refresh', employeeController.refresh)
-router.post('/getAll', checkRole(['ADMIN']), employeeController.getAllEmployees)
+router.post('/getAll', employeeController.getAllEmployees)
 router.post('/getUserByUserID', authMiddleware, employeeController.getUserByEmployeeID)
 //
 // router.put('/changeDefaultAddressByNumber', authMiddleware, employeeController.changeDefaultAddressByNumber)
